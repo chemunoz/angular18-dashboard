@@ -1,4 +1,4 @@
-<form action="">
+<form>
   <p>
     <label for="title">Title</label>
     <input type="text" id="title" name="title" />
@@ -8,9 +8,6 @@
     <textarea id="request" name="request" rows="3"></textarea>
   </p>
   <p>
-    <button>
-      <span>Submit</span>
-      <span class="icon">→</span>
-    </button>
+    <app-button [label]="'Submit'" [icon]="'→'" />
   </p>
 </form>
