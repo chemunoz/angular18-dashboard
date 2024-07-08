@@ -7,6 +7,9 @@ import { ImageItem } from '../../interfaces/image-item.interface';
   imports: [],
   templateUrl: './dashboard-item.component.html',
   styleUrl: './dashboard-item.component.css',
+  host: {
+    class: 'dashboard-item',
+  },
 })
 export class DashboardItemComponent {
   image = input.required<ImageItem>();
