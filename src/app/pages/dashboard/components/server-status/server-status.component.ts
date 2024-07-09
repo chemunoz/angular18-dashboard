@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ServerStatus } from './status.enum';
 
 @Component({
   selector: 'app-server-status',
@@ -8,5 +9,26 @@ import { Component } from '@angular/core';
   styleUrl: './server-status.component.css',
 })
 export class ServerStatusComponent {
-  currentStatus = 'online';
+  currentStatus: ServerStatus = ServerStatus.OFFLINE;
+
+  constructor() {
+    this.updateServerStatus();
+  }
+
+  private updateServerStatus(): void {
+    setInterval(() => {
+      this.currentStatus = this.getRandomServerStatus();
+    }, 3000);
+  }
+
+  private getRandomServerStatus(): ServerStatus {
+    const rnd = Math.random();
+    if (rnd < 0.5) {
+      return ServerStatus.ONLINE;
+    } else if (rnd < 0.9) {
+      return ServerStatus.OFFLINE;
+    } else {
+      return ServerStatus.UNKNOWN;
+    }
+  }
 }
