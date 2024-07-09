@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ServerStatus } from './status.enum';
 
 @Component({
@@ -8,10 +8,10 @@ import { ServerStatus } from './status.enum';
   templateUrl: './server-status.component.html',
   styleUrl: './server-status.component.css',
 })
-export class ServerStatusComponent {
+export class ServerStatusComponent implements OnInit {
   currentStatus: ServerStatus = ServerStatus.OFFLINE;
 
-  constructor() {
+  ngOnInit(): void {
     this.updateServerStatus();
   }
 
