@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ServerStatus } from './status.enum';
 
 @Component({
@@ -8,15 +8,16 @@ import { ServerStatus } from './status.enum';
   templateUrl: './server-status.component.html',
   styleUrl: './server-status.component.css',
 })
-export class ServerStatusComponent implements OnInit {
+export class ServerStatusComponent implements OnInit, OnDestroy {
   currentStatus: ServerStatus = ServerStatus.OFFLINE;
+  #interval?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {
     this.updateServerStatus();
   }
 
   private updateServerStatus(): void {
-    setInterval(() => {
+    this.#interval = setInterval(() => {
       this.currentStatus = this.getRandomServerStatus();
     }, 3000);
   }
@@ -29,6 +30,12 @@ export class ServerStatusComponent implements OnInit {
       return ServerStatus.OFFLINE;
     } else {
       return ServerStatus.UNKNOWN;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.#interval) {
+      clearInterval(this.#interval);
     }
   }
 }
