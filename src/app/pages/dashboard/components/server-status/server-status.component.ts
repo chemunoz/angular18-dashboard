@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ServerStatus } from './status.enum';
 
 @Component({
@@ -8,18 +8,23 @@ import { ServerStatus } from './status.enum';
   templateUrl: './server-status.component.html',
   styleUrl: './server-status.component.css',
 })
-export class ServerStatusComponent implements OnInit, OnDestroy {
+export class ServerStatusComponent implements OnInit {
   currentStatus: ServerStatus = ServerStatus.OFFLINE;
-  #interval?: ReturnType<typeof setInterval>;
+  // NOTE: We can use 'DestroyRef' from Angular 16 or newer
+  #destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.updateServerStatus();
   }
 
   private updateServerStatus(): void {
-    this.#interval = setInterval(() => {
+    const interval = setInterval(() => {
       this.currentStatus = this.getRandomServerStatus();
     }, 3000);
+
+    this.#destroyRef.onDestroy(() => {
+      clearInterval(interval);
+    });
   }
 
   private getRandomServerStatus(): ServerStatus {
@@ -30,12 +35,6 @@ export class ServerStatusComponent implements OnInit, OnDestroy {
       return ServerStatus.OFFLINE;
     } else {
       return ServerStatus.UNKNOWN;
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.#interval) {
-      clearInterval(this.#interval);
     }
   }
 }
