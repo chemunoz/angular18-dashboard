@@ -1,4 +1,10 @@
-import { Component, input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  contentChild,
+  ElementRef,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -14,8 +20,11 @@ import { Component, input, ViewEncapsulation } from '@angular/core';
 })
 export class ControlComponent {
   label = input.required<string>();
+  // NOTE: 'contentChild' function is only available in Angular 17.3+ before that, use 'ContentChild' decorator
+  private control =
+    contentChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
 
   private onClick(): void {
-    console.log('clicked');
+    console.log('control clicked', this.control()?.nativeElement.value);
   }
 }

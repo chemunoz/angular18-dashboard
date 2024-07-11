@@ -11,7 +11,7 @@ import { ControlComponent } from '@shared/control/control.component';
   styleUrl: './new-ticket.component.css',
 })
 export class NewTicketComponent {
-  // NOTE: Only available in Angular 17.3+
+  // NOTE: 'viewChild' function is only available in Angular 17.3+ before that, use 'ViewChild' decorator
   private form = viewChild.required<ElementRef<HTMLFormElement>>('form');
 
   onSubmit(title: string, text: string): void {
