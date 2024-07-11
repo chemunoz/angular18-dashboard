@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '@shared/button/button.component';
 import { ControlComponent } from '@shared/control/control.component';
@@ -11,7 +11,11 @@ import { ControlComponent } from '@shared/control/control.component';
   styleUrl: './new-ticket.component.css',
 })
 export class NewTicketComponent {
+  // NOTE: Only available in Angular 17.3+
+  private form = viewChild.required<ElementRef<HTMLFormElement>>('form');
+
   onSubmit(title: string, text: string): void {
     console.log('submit', { title, text });
+    this.form()?.nativeElement.reset();
   }
 }
