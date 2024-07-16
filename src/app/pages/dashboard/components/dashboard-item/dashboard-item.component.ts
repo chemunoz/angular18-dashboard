@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ImageItem } from '../../interfaces/image-item.interface';
+import { ImageItem } from '@app/pages/dashboard/interfaces/image-item.interface';
 
 @Component({
   selector: 'app-dashboard-item',
