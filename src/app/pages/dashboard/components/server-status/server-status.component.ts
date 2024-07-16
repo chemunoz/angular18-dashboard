@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ServerStatus } from './status.enum';
 
 @Component({
@@ -9,9 +16,15 @@ import { ServerStatus } from './status.enum';
   styleUrl: './server-status.component.css',
 })
 export class ServerStatusComponent implements OnInit {
-  currentStatus: ServerStatus = ServerStatus.OFFLINE;
+  currentStatus = signal<ServerStatus>(ServerStatus.OFFLINE);
   // NOTE: We can use 'DestroyRef' from Angular 16 or newer
   #destroyRef = inject(DestroyRef);
+
+  constructor() {
+    effect(() => {
+      console.log('Server status changed to:', this.currentStatus());
+    });
+  }
 
   ngOnInit(): void {
     this.updateServerStatus();
@@ -19,7 +32,7 @@ export class ServerStatusComponent implements OnInit {
 
   private updateServerStatus(): void {
     const interval = setInterval(() => {
-      this.currentStatus = this.getRandomServerStatus();
+      this.currentStatus.set(this.getRandomServerStatus());
     }, 3000);
 
     this.#destroyRef.onDestroy(() => {
