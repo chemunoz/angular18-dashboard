@@ -1,7 +1,12 @@
 <article>
   <h3>
-    <div [class]="{ 'ticket-open': true, 'ticket-closed': false }"></div>
-    <button (click)="onToggleDetails()">
+    <div
+      [class]="{
+        'ticket-open': ticket().status === 'open',
+        'ticket-closed': ticket().status === 'closed'
+      }"
+    ></div>
+    <button class="cursor" (click)="onToggleDetails()">
       <span class="text">{{ ticket().title }}</span>
       <span>
         @if (detailsVisible()) {
@@ -41,6 +46,10 @@
   <p>{{ ticket().request }}</p>
 
   @if (ticket().status === 'open') {
-  <p><button>Mark as completed</button></p>
+  <p>
+    <button class="cursor" (click)="onMarkAsCompleted()">
+      Mark as completed
+    </button>
+  </p>
   } }
 </article>

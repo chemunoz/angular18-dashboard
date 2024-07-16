@@ -22,4 +22,10 @@ export class TicketsComponent {
       status: TicketStatus.OPEN,
     });
   }
+
+  onCompleteTicket(id: string): void {
+    this.tickets = this.tickets.map((ticket) =>
+      ticket.id === id ? { ...ticket, status: TicketStatus.CLOSED } : ticket
+    );
+  }
 }
