@@ -27,6 +27,10 @@ h3 div {
   background-color: #51c788;
 }
 
+svg {
+  cursor: pointer;
+}
+
 .text {
   text-align: left;
 }
